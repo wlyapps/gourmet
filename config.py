@@ -21,7 +21,7 @@ class Config:
     SECRET_KEY = 'Cpm@123*'
     SESSION_TYPE = 'filesystem'
     SESSION_FILE_DIR = './data_session/'
-    SESSION_DOMINIO = 'http://192.168.0.113:8080/'
+    SESSION_DOMINIO = 'http://delicias-w-gourmet.up.railway.app/'
 
 class app_vars:
     ACCESS_TOKEN = "TEST-4667742724479969-091116-015eb505e94cf5735b49477703f33624-172786625"
