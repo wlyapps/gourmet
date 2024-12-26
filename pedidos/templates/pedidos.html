@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='icons/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='pedidos.css') }}">
+    <title>DelíciasGourmet</title>
+</head>
+<body>
+    <div class="top-banner">
+        <img src="{{ url_for('static', filename='icons/banner-top.png') }}" alt="Descrição da imagem" class="img-fluid w-100 h-20">
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" aria-label="Main navigation">
+        <button class="navbar-toggler mr-auto" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#">Delícias Gourmet</a>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Início <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/pedidos">Pedidos</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="main-content">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="d-block w-100" src="{{ url_for('static', filename='icons/banner1.png') }}" alt="Primeiro Slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="{{ url_for('static', filename='icons/banner2.png') }}" alt="Segundo Slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="{{ url_for('static', filename='icons/banner3.png') }}" alt="Terceiro Slide">
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Anterior</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Próximo</span>
+            </a>
+        </div>
+
+        <div class="container mt-5">
+            <h1 class="text-center mb-4">Faça seu Pedido</h1>
+
+            <!-- Lista de produtos -->
+            <ul class="list-group mb-4">
+              <li class="list-group-item d-flex align-items-center">
+                <img src="https://drive.google.com/thumbnail?id=1mbvpWY06NBr-f586CUyMeHhGU1ynmCSm" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
+                <div class="flex-grow-1">
+                  <h5 class="mb-0">Laka Laka</h5>
+                  <span>R$10,00</span>
+                </div>
+                <label style="display: grid; grid-template-columns: repeat(3, auto); gap: 20px;">Disponível</label>
+                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto1', -1)">-</button>
+                <input type="text" id="produto1-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
+                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto1', 1)">+</button>
+              </li>
+
+              <li class="list-group-item d-flex align-items-center">
+                <img src="https://drive.google.com/thumbnail?id=1mphvN46i847bfoWiL_6-D0U9HHq2My6d" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
+                <div class="flex-grow-1">
+                  <h5 class="mb-0">Prestígio</h5>
+                  <span>R$8,00</span>
+                </div>
+                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto2', -1)">-</button>
+                <input type="text" id="produto2-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
+                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto2', 1)">+</button>
+              </li>
+
+              <li class="list-group-item d-flex align-items-center">
+                <img src="https://drive.google.com/thumbnail?id=1muANgxS85Zh8kB5_BLA8dOnLBuovYJLh" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
+                <div class="flex-grow-1">
+                  <h5 class="mb-0">Ovomaltine</h5>
+                  <span>R$8,00</span>
+                </div>
+                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto3', -1)">-</button>
+                <input type="text" id="produto3-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
+                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto3', 1)">+</button>
+              </li>
+
+              <li class="list-group-item d-flex align-items-center">
+                <img src="https://drive.google.com/thumbnail?id=1mxIKpz6eXLHWs02HM2ZpO4huHxPK4Ycj" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
+                <div class="flex-grow-1">
+                  <h5 class="mb-0">Paçoca</h5>
+                  <span>R$8,00</span>
+                </div>
+                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto4', -1)">-</button>
+                <input type="text" id="produto4-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
+                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto4', 1)">+</button>
+              </li>
+
+              <li class="list-group-item d-flex align-items-center">
+                <img src="https://drive.google.com/thumbnail?id=1myHnSiHtY-uezjr79zq6INYPeTvsjxt8" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
+                <div class="flex-grow-1">
+                  <h5 class="mb-0">Ninho</h5>
+                  <span>R$8,00</span>
+                </div>
+                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto5', -1)">-</button>
+                <input type="text" id="produto5-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
+                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto5', 1)">+</button>
+              </li>
+
+              <li class="list-group-item d-flex align-items-center">
+                <img src="https://drive.google.com/thumbnail?id=1mzLm_LgBN1xMYI9UVo5A95BE3-E8Vuno" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
+                <div class="flex-grow-1">
+                  <h5 class="mb-0">Ninho com Chocolate</h5>
+                  <span>R$8,00</span>
+                </div>
+                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto6', -1)">-</button>
+                <input type="text" id="produto6-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
+                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto6', 1)">+</button>
+              </li>
+
+              <li class="list-group-item d-flex align-items-center">
+                <img src="https://drive.google.com/thumbnail?id=1nozXpc7zsMEVIJ5vRbyzReyDNdusokU7" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
+                <div class="flex-grow-1">
+                  <h5 class="mb-0">Ninho com Nutela</h5>
+                  <span>R$8,00</span>
+                </div>
+                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto7', -1)">-</button>
+                <input type="text" id="produto7-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
+                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto7', 1)">+</button>
+              </li>
+
+              <li class="list-group-item d-flex align-items-center">
+                <img src="https://drive.google.com/thumbnail?id=1nxG8jgaei4aErWGeGJIbNKkJ_xpCwVIk" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
+                <div class="flex-grow-1">
+                  <h5 class="mb-0">Chocolate</h5>
+                  <span>R$8,00</span>
+                </div>
+                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto8', -1)">-</button>
+                <input type="text" id="produto8-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
+                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto8', 1)">+</button>
+              </li>
+
+              <li class="list-group-item d-flex align-items-center">
+                <img src="https://drive.google.com/thumbnail?id=1o-AhIuDaa1p9FFZvKTfn59fXbnSZFBXV" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
+                <div class="flex-grow-1">
+                  <h5 class="mb-0">Brigadeiro</h5>
+                  <span>R$8,00</span>
+                </div>
+                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto9', -1)">-</button>
+                <input type="text" id="produto9-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
+                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto9', 1)">+</button>
+              </li>
+
+              <li class="list-group-item d-flex align-items-center">
+                <img src="https://drive.google.com/thumbnail?id=1o-L6hV_DsgHMSeJ93AJemsSatbmqMvyE" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
+                <div class="flex-grow-1">
+                  <h5 class="mb-0">Tortinha</h5>
+                  <span>R$8,00</span>
+                </div>
+                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto10', -1)">-</button>
+                <input type="text" id="produto10-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
+                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto10', 1)">+</button>
+              </li>
+
+              <li class="list-group-item d-flex align-items-center">
+                <img src="https://drive.google.com/thumbnail?id=1o3YGbtOWe4kUzUQiK7pJtl9QfJF_G7se" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
+                <div class="flex-grow-1">
+                  <h5 class="mb-0">Sensação</h5>
+                  <span>R$8,00</span>
+                </div>
+                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto11', -1)">-</button>
+                <input type="text" id="produto11-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
+                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto11', 1)">+</button>
+              </li>
+              <!-- Adicione mais produtos aqui -->
+            </ul>
+
+            <!-- Formulário -->
+            <!-- <form id="pedido-form" onsubmit="enviarPedido(); return false;">-->
+            <form id="pedido-form" action="#" method="POST">
+              <!-- Telefone celular -->
+              <div class="mb-3">
+                <label for="telefone" class="form-label">Telefone celular com DDD:</label>
+                <input type="tel" id="telefone" name="telefone" class="form-control" placeholder="11 99999-9999" onblur="limparTextoNumerico()" required>
+              </div>
+
+              <!-- Nome -->
+              <div class="mb-3">
+                <label for="nome" class="form-label">Nome:</label>
+                <input type="text" id="nome" name="nome" class="form-control" placeholder="Informe seu Nome" required>
+              </div>
+
+              <!-- Forma de entrega -->
+              <div class="mb-3">
+                <label for="forma-entrega" class="form-label">Forma de entrega:</label>
+                <select id="forma-entrega" name="formaEntrega" class="form-select" onchange="atualizarCamposEntrega()">
+                  <option value="Retirada no Local">Retirada no Local</option>
+                  <option value="Entrega">Entrega</option>
+                </select>
+              </div>
+
+              <!-- Método de pagamento -->
+              <div class="mb-3">
+                <label for="metodo-pagamento" class="form-label">Método de pagamento:</label>
+                <select id="metodo-pagamento" name="metodoPagamento" class="form-select">
+                  <option value="Dinheiro">Dinheiro</option>
+                  <option value="Pagamento Online">Pagamento Online</option>
+                </select>
+              </div>
+
+              <!-- Campos de endereço -->
+              <div id="campos-endereco" class="p-3 border rounded bg-white mb-3" style="display: none;">
+                <h5>Dados de Entrega</h5>
+                <div class="mb-3">
+                  <label for="cep" class="form-label">CEP:</label>
+                  <input type="text" id="cep" name="cep" class="form-control" onblur="buscarEndereco()">
+                </div>
+                <div class="mb-3">
+                  <label for="rua" class="form-label">Rua:</label>
+                  <input type="text" id="rua" name="rua" class="form-control" readonly>
+                </div>
+                <div class="mb-3">
+                  <label for="numero" class="form-label">Número:</label>
+                  <input type="text" id="numero" name="numero" class="form-control">
+                </div>
+                <div class="mb-3">
+                  <label for="complemento" class="form-label">Complemento:</label>
+                  <input type="text" id="complemento" name="complemento" class="form-control" readonly>
+                </div>
+                <div class="mb-3">
+                  <label for="cidade" class="form-label">Cidade:</label>
+                  <input type="text" id="cidade" name="cidade" class="form-control" readonly>
+                </div>
+              </div>
+
+              <!-- Resumo do pedido -->
+              <div id="resumo-pedido" class="p-3 border rounded bg-white mb-3">
+                <h5>Resumo do Pedido</h5>
+                <ul id="resumo-itens" class="list-unstyled"></ul>
+                <input type="text" id="resumo" name="resumo" hidden>
+                <p>Total: <span id="total-pedido">R$0,00</span></p>
+                <input type="number" id="total" name="total" value="0" hidden>
+                <hr>
+                <div id="info">{{ session['html_message'] | safe }}</div>
+              </div>
+
+              <!-- Campo de pagamento online -->
+              <div id="campo-pagamento-online" class="mb-3" style="display: none;">
+                <label for="pagamento-online" class="form-label">Detalhes do Pagamento Online:</label>
+                <input type="text" id="pagamento-online" name="pagamentoOnline" class="form-control" placeholder="Ex: Número do Cartão">
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100" id="finalizar">Finalizar Pedido</button>
+            </form>
+          </div>
+          <br>
+          <hr>
+    </div>
+
+    <footer>
+        <p>Delícias Gourmet</p>
+        <br>
+        <p>
+            Contato:
+            <a href="https://web.whatsapp.com/send/?phone={{ html['rodape']['watsapp'] }}&text=Olá,%20Gostaria%20de%20mais%20Informações%20sobre%20Delícias%20Gourmet.&type=phone_number&app_absent=0">
+                <img src="{{ url_for('static', filename='icons/whatsapp-icon.png') }}" alt="WhatsApp" style="height: 20px;">
+                WhatsApp
+            </a>
+        </p>
+        <br>
+        <p>{{ html['rodape']['copyriting'] }}</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        const limparTextoNumerico = () => {
+            const campotel = document.getElementById("telefone");
+            document.getElementById("telefone").value = campotel.value.replace(/[^0-9]/g, '');
+        }
+
+        // Controle de quantidade
+        const alterarQuantidade = (produtoId, delta) => {
+          const quantidadeInput = document.getElementById(`${produtoId}-quantidade`);
+          let quantidade = parseInt(quantidadeInput.value) + delta;
+          if (quantidade < 0) quantidade = 0;
+          quantidadeInput.value = quantidade;
+          atualizarResumoPedido();
+        };
+
+        const atualizarResumoPedido = () => {
+        const resumoItens = document.getElementById("resumo-itens");
+        const regioes = {{ html['regioes'] | safe }};
+        const infoComplemento = document.getElementById("complemento").value;
+
+        resumoItens.innerHTML = "";
+        let total = 0;
+        document.querySelectorAll("input[id$='-quantidade']").forEach((input) => {
+        const quantidade = parseInt(input.value);
+        if (quantidade > 0) {
+          const produto = input.parentNode;
+          const titulo = produto.querySelector("h5").textContent;
+          const preco = parseFloat(produto.querySelector("span").textContent.replace("R$", "").replace(",", "."));
+          total += quantidade * preco;
+
+          const li = document.createElement("li");
+          li.textContent = `${titulo} - ${quantidade} x R$${preco.toFixed(2)}`;
+          resumoItens.appendChild(li);
+        }
+        });
+        document.getElementById("total-pedido").textContent = `R$${total.toFixed(2)}`;
+        const listaItems = document.querySelectorAll('#resumo-itens li');
+        let textos = "";
+
+        listaItems.forEach((item, index) => {
+          textos += item.textContent; // Adiciona o texto de cada li
+          if (index < listaItems.length - 1) {
+              textos += "|"; // Adiciona um ponto apenas entre os itens, não no final
+          }
+        });
+        document.getElementById("resumo").value = textos;
+        document.getElementById("total").value = total;
+        };
+
+        const verRegion = (comp) => {
+            const regioes = {{ html['regioes'] | safe }};
+
+            if (regioes.includes(comp)) {
+            document.getElementById("info").innerHTML = "";
+            document.getElementById("finalizar").disabled = false;
+            } else {
+            document.getElementById("info").innerHTML = '<p style="color: red;">Desculpe, Entregas indisponíveis para sua Região</p>';
+            document.getElementById("finalizar").disabled = true;
+            }
+        };
+
+        const atualizarCamposEntrega = () => {
+          const formaEntrega = document.getElementById("forma-entrega").value;
+          const camposEndereco = document.getElementById("campos-endereco");
+          const metodoPagamento = document.getElementById("metodo-pagamento");
+          camposEndereco.style.display = formaEntrega === "Entrega" ? "block" : "none";
+
+          metodoPagamento.innerHTML = `
+            <option value="Dinheiro">Dinheiro</option>
+            <option value="Pagamento Online">Pagamento Online</option>
+          `;
+          if (formaEntrega === "Entrega") {
+            metodoPagamento.innerHTML = `<option value="Pagamento Online">Pagamento Online</option>`;
+          }
+        };
+
+        const buscarEndereco = () => {
+          const cep = document.getElementById("cep").value.replace(/\D/g, '');
+
+          if (cep.length !== 8) return;
+
+          fetch(`https://viacep.com.br/ws/${cep}/json/`)
+            .then(response => response.json())
+            .then(data => {
+              if (!data.erro) {
+                document.getElementById("info").innerHTML = "";
+                document.getElementById("rua").value = data.logradouro || "";
+                document.getElementById("complemento").value = data.complemento || "";
+                document.getElementById("cidade").value = data.localidade || "";
+                verRegion(data.complemento);
+              } else {
+                document.getElementById("info").innerHTML = '<p style="color: red;">CEP inválido ou não encontrado.</p>';
+              }
+            })
+            .catch(() => alert("Erro ao buscar CEP."));
+        };
+    </script>
+</body>
+</html>
