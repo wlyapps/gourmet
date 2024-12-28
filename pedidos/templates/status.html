@@ -20,11 +20,14 @@
         <a class="navbar-brand" href="#">Delícias Gourmet</a>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="/">Início <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/pedidos">Pedidos</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/pedidos?pedido=0000">Status</a>
                 </li>
             </ul>
         </div>
@@ -57,8 +60,27 @@
             </a>
         </div>
 
-        <!-- Pagamento -->
-
+        <!-- status -->
+        <div class="container mt-5">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4>Consulta de Status de Pedido</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Formulário -->
+                    <div class="form-group">
+                        <label for="telefone">Número de Telefone com DDD:</label>
+                        <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Digite o número de telefone" onblur="limparTextoNumerico()" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" name="consulta" onclick="consulta(this.name)">Consultar</button>
+                    <hr>
+                    <!-- Resultado -->
+                    <div id="resultado" class="mt-4">
+                        <h5 id="info" class="text-center text-secondary"></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
         <br>
         <hr>
     </div>
@@ -80,5 +102,42 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        const limparTextoNumerico = () => {
+            const campotel = document.getElementById("telefone");
+            document.getElementById("telefone").value = campotel.value.replace(/[^0-9]/g, '');
+        }
+
+        function consulta(page) {
+            var xhr = new XMLHttpRequest();
+            var telefone = document.getElementById("telefone").value;
+
+            xhr.open('GET', '/function' + '?page=' + page, true);
+            {% if html['pedido'] %}
+            xhr.open('GET', '/function' + '?page=' + page + '&pedido={{ html['pedido'] }}', true);
+            {% else %}
+            xhr.open('GET', '/function' + '?page=' + page + '&telefone=' + telefone, true);
+            {% endif %}
+
+            xhr.onload = function() {
+              if (xhr.status == 200) {
+                var response = JSON.parse(xhr.responseText);
+
+                document.getElementById(response.tag).innerHTML = response.html;
+              } else {
+                document.getElementById(response.tag).innerHTML  = '<p>Erro: ' + xhr.status + '</p>';
+              }
+            };
+
+            xhr.onerror = function() {
+                document.getElementById(response.tag).innerHTML  = '<p>Erro na Requisição</p>';
+            };
+
+            xhr.send();
+        }
+        {% if html['pedido'] %}
+        consulta("consulta")
+        {% endif %}
+    </script>
 </body>
 </html>

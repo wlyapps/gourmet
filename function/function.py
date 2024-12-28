@@ -20,13 +20,52 @@ page_function_bp = Blueprint("function", __name__, template_folder="templates")
 def function():
     config_html = {
         "html": "",
-        "tag": "tag-primary",
-        "frete-resumo": []
+        "tag": "",
     }
 
     page = request.args.get("page")
+    pedido = request.args.get("pedido")
+    telefone = request.args.get("telefone")
 
-    if page == "produtos":
-        ...
+    if page == "consulta":
+        if pedido:
+            status_pedido = config.person_function.retornar_values(tabela="pedidos", person_command=f"""
+            SELECT * FROM pedidos
+            WHERE id = {pedido} AND status != 'Finalizado'
+            """)
+
+            if status_pedido:
+                config_html["tag"] = "info"
+                config_html["html"] = f"""
+                <p>Nome: {status_pedido[0][2]}</p>
+                <p>Telefone: {status_pedido[0][1]}</p>
+                <p>Status: {status_pedido[0][-1]}</p>
+                """
+            else:
+                config_html["tag"] = "info"
+                config_html["html"] = f"""
+                <p>Não há Pedidos em Aberto!</p>
+                """
+
+        else:
+            status_pedido = config.person_function.retornar_values(tabela="pedidos", person_command=f"""
+            SELECT * FROM pedidos
+            WHERE telefone = '{telefone}' AND status != 'Finalizado'
+            """)
+
+            if status_pedido:
+                config_html["tag"] = "info"
+                config_html["html"] = f"""
+                <p>Nome: {status_pedido[0][2]}</p>
+                <p>Telefone: {status_pedido[0][1]}</p>
+                <p>Status: {status_pedido[0][-1]}</p>
+                """
+            else:
+                config_html["tag"] = "info"
+                config_html["html"] = f"""
+                <p>Não há Pedidos em Aberto para o número informado!</p>
+                """
+
+        return jsonify(config_html), 200
     else:
         return redirect(url_for("index.index"))

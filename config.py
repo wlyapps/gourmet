@@ -21,10 +21,11 @@ class Config:
     SECRET_KEY = 'Cpm@123*'
     SESSION_TYPE = 'filesystem'
     SESSION_FILE_DIR = './data_session/'
-    SESSION_DOMINIO = 'http://192.168.0.113:8080/'
+    SESSION_DOMINIO = 'https://delicias-w-gourmet.up.railway.app/'
 
 class app_vars:
-    ACCESS_TOKEN = "TEST-4667742724479969-091116-015eb505e94cf5735b49477703f33624-172786625"
+    # ACCESS_TOKEN = "TEST-4667742724479969-091116-015eb505e94cf5735b49477703f33624-172786625"
+    ACCESS_TOKEN = "APP_USR-4667742724479969-091116-7aed5fed6dc44c0dd62f60ceb0411047-172786625"
     MELHOR_ENVIO_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMWJjNTIxNjVhOGJjMjM4NzcwOTBhNWNiZjY2ZjRlNDExNjRkYjNkMDhmZDgwMjI2YWM5ZDYwOGRlODY0MDU1NzIxZjljNWY1OGY1OTU2NDciLCJpYXQiOjE3Mjk2NDE1OTMuMTQ1ODIzLCJuYmYiOjE3Mjk2NDE1OTMuMTQ1ODI1LCJleHAiOjE3NjExNzc1OTMuMTMzOTMxLCJzdWIiOiI5YjA3NTcyYy1iZjNjLTRlMTEtOGJiZC01ZjU0YmJiNTVlMTkiLCJzY29wZXMiOlsic2hpcHBpbmctY2FsY3VsYXRlIl19.UbggmYDQVvs1OzJQodRJoZsVwKEMWt2B0-eLoIW_3eQehay6Q7_ukcyCZsC4AlPDNwUdN7JKFxGmlKMLOnQCwLOPFOONhzb0T7l2DEZuloZ3re-eCF-HDdNipfTlK1kPv56-fj0J_bGnO6TtK4Q7tPYRtFnDb54Z6y7pXpC2ow_ceibsv9Q1e1qKn9d4ZqK9gB0Pmc1dXgwitpSuG9OixEBJsNm6ClOiXkuecGUK5V70IVxH42dF6UUtCYV5KF33c0oLRPEwzyvab4rX8Gc3XSqOIukYNCKnrgXFue18aYIKmkuoFqrLFAFuelta7EGCHlPFhi-cqlgVGQk95xhvLaStzLsiMiTI3xwZIK1K_4jPaAr_wimDzespM0jyQ0zTAkvgY1NN3qJmxiIFzp8dD7iVT0Q5EA8J3XGc6aR1Js0MbYJpC85N89nKatYnEonPfIa0YDVSkks7zoLuUwuWFy805j7lRZZwYrqOY906Zo6vRnIxLMfm5cdaj1Ab2kh4lyUhIZv3t-SS3D6hFCnr2mRJE43Q0fCjGNfHuSAw5jZs78SqPvG3iH-CgGKNOwj8FbAb8ut5EK77vIxyinrUglddoczQdqzrNQwXnFXNCl7MqFDg6rzXV82MrHo6WLFXlWlawKv1sm75KjXrPzBI0ceCPt1-gDopxDl_qo_sXQ8"
     exclude_payments = [
         {"id": "credit_card"},
@@ -82,129 +83,6 @@ class person_function():
         fim = min(inicio + limite_page, total)
 
         return (inicio, fim, total_pages)
-
-    def calcular_frete_melhor_envio(*args, api_key=app_vars.MELHOR_ENVIO_TOKEN, cep_origem, cep_destino, produtos):
-
-        url = "https://www.melhorenvio.com.br/api/v2/me/shipment/calculate"
-
-        headers = {
-            "Accept": "application/json",
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json"
-        }
-
-        # Dados do pacote para cálculo
-        payload = {
-            "from": {"postal_code": cep_origem},
-            "to": {"postal_code": cep_destino},
-            "products": produtos,
-            "services": "1,2",  # Pode-se especificar serviços específicos de envio, se quiser
-        }
-
-        # Fazendo a requisição para a API do Melhor Envio
-        response = requests.post(url, json=payload, headers=headers)
-
-        # Verificando se a requisição foi bem-sucedida
-        if response.status_code == 200:
-            return response.json()
-        else:
-            return {"error": "Falha ao calcular o frete", "status_code": response.status_code}
-
-    def calcular_frete_j3flex(*args, cep_destino, produtos):
-        regioes_j3 = ['Francisco Morato', 'Cajamar Jordanésia', 'Franco da Rocha', 'Mairiporã Norte',
-                      'Mairiporã Central', 'Mairiporã Sul', 'Caieiras', 'Santana de Parnaíba Central',
-                      'Santana de Parnaíba Leste', 'Santana de Parnaíba Oeste', 'Itapevi Fundão', 'Barueri 1',
-                      'Barueri 2', 'Osasco 1', 'Osasco 2', 'Osasco 3', 'Norte 1', 'Norte 2', 'Norte 3', 'Oeste 1',
-                      'Oeste 2', 'Oeste 3', 'Centro', 'Sul 1', 'Sul 2', 'Sul 3', 'Cotia Norte', 'Cotia Central',
-                      'Cotia Leste', 'Cotia Sudeste', 'Jandira Norte', 'Jandira Cotia', 'Taboão', 'Embu das Artes 1',
-                      'Embu das Artes 2', 'São Caetano', 'São Bernardo 1', 'São Bernardo 2', 'São Bernardo 3',
-                      'Diadema', 'Santo André 1', 'Santo André 2', 'Santo André 3', 'Mauá', 'Guarulhos 1',
-                      'Guarulhos 2', 'Guarulhos 3', 'Guarulhos 4', 'Arujá', 'Itaquaquecetuba',
-                      'Ferraz de Vasconcelos Poá', 'Leste 1', 'Leste 2', 'Leste 3', 'Leste 4', 'Leste 5',
-                      'Mogi das Cruzes-Suzano Norte', 'Mogi das Cruzes Leste', 'Mogi das Cruzes Central',
-                      'Mogi das Cruzes Sul', 'Suzano Central', 'Suzano Sul'] + ["São Paulo"]
-
-        url = f"https://viacep.com.br/ws/{cep_destino}/json/"
-        response = requests.get(url).json()
-
-        localidade = response["localidade"]
-        estado = response["estado"]
-
-        if (estado == "São Paulo" and float(produtos[0]["width"]) <= 30 and float(produtos[0]["height"]) <= 30
-            and float(produtos[0]["length"]) <= 30):
-            similaridade = {regiao: difflib.SequenceMatcher(None, localidade, regiao).ratio() for regiao in regioes_j3}
-            similaridade_ordenada = sorted(similaridade.items(), key=lambda item: item[1], reverse=True)
-
-            score_final = 0
-            for regiao, score in similaridade_ordenada[:5]:
-                if score >= score_final:
-                    score_final = round(score, 2)
-
-            if score_final >= 0.7:
-                return True
-            else:
-                return False
-        else:
-            return False
-
-    def variacao_personalizada(*args, variacao):
-        # select:Cor:Azul,Verde,Vermelho|input:Texto Personalizado:Escreva seu texto Personalizado para o Modelo
-
-        html_variacao = ""
-        if ":" in variacao:
-            variacoes_person = variacao.split("|")
-            idc = 1
-            ids_existentes = []
-            for item_var in variacoes_person:
-                if "select" in item_var:
-                    tipo, titulo, opcoes = item_var.split(":")
-                    html_opcoes = ""
-
-                    for opcao in opcoes.split(","):
-                        html_opcoes += f'<option value="{opcao.lower()}">{opcao}</option>\n'
-
-                    html_variacao += f"""
-                    <label for="{titulo.lower()}" class="mr-2">{titulo}*:</label>
-                    <select id="variacao_geral{idc}" class="form-control">
-                        <option value="">Selecione</option>
-                        {html_opcoes}
-                    </select>
-                    <p class="blink"><< Atenção >> Item com Variação, não Esqueça de Selecionar!</p>
-                    """
-                    idc += 1
-                elif "input" in item_var:
-                    tipo, titulo, opcoes = item_var.split(":")
-                    html_variacao += f"""
-                    <div class="form-group">
-                        <label for="{titulo.lower()}">{titulo}*:</label>
-                        <input type="text" class="form-control" id="variacao_geral{idc}" 
-                        placeholder="{opcoes}">
-                    </div>
-                    <p class="blink"><< Atenção >> Item com Variação, não Esqueça de Informar!</p>
-                    """
-                    idc += 1
-                else:
-                    return []
-
-            return html_variacao
-        else:
-            if variacao:
-                html_opcoes = ""
-
-                for opcao in variacao.split(","):
-                    html_opcoes += f'<option value="{opcao.lower()}">{opcao}</option>\n'
-
-                html_variacao = f"""
-                <label for="variacao_geral" class="mr-2">Variação Geral*:</label>
-                <select name="variacao_geral" id="variacao_geral" class="form-control">
-                    <option value="">Selecione</option>
-                    {html_opcoes}
-                </select>
-                <p class="blink"><< Atenção >> Item com Variação, não Esqueça de Selecionar!</p>
-                """
-                return html_variacao
-            else:
-                return []
 
     def retornar_values(*args, tabela, coluna=None, filtro=None, person_command=None):
         if person_command:

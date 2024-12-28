@@ -109,6 +109,7 @@ def pedidos():
 
 
     if pedido:
+        config_html["pedido"] = pedido if pedido != "0000" else ""
         return render_template("status.html", html=config_html)
     else:
         return render_template("pedidos.html", html=config_html)

@@ -6,6 +6,7 @@ from config import create_sql
 
 from home.home_page import page_home_bp
 from pedidos.pedidos import page_pedidos_bp
+from function.function import page_function_bp
 
 app = Flask(__name__)
 
@@ -17,6 +18,7 @@ Session(app)
 
 app.register_blueprint(page_home_bp)
 app.register_blueprint(page_pedidos_bp)
+app.register_blueprint(page_function_bp)
 
 create_sql.tables()
 
