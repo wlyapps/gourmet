@@ -28,44 +28,51 @@ def function():
     telefone = request.args.get("telefone")
 
     if page == "consulta":
-        if pedido:
-            status_pedido = config.person_function.retornar_values(tabela="pedidos", person_command=f"""
-            SELECT * FROM pedidos
-            WHERE id = {pedido} AND status != 'Finalizado'
-            """)
+        try:
+            if pedido:
+                status_pedido = config.person_function.retornar_values(tabela="pedidos", person_command=f"""
+                SELECT * FROM pedidos
+                WHERE id = {pedido} AND status != 'Finalizado'
+                """)
 
-            if status_pedido:
-                config_html["tag"] = "info"
-                config_html["html"] = f"""
-                <p>Nome: {status_pedido[0][2]}</p>
-                <p>Telefone: {status_pedido[0][1]}</p>
-                <p>Status: {status_pedido[0][-1]}</p>
-                """
+                if status_pedido:
+                    config_html["tag"] = "info"
+                    config_html["html"] = f"""
+                    <p>Nome: {status_pedido[0][2]}</p>
+                    <p>Telefone: {status_pedido[0][1]}</p>
+                    <p>Status: {status_pedido[0][-1]}</p>
+                    """
+                else:
+                    config_html["tag"] = "info"
+                    config_html["html"] = f"""
+                    <p>Não há Pedidos em Aberto!</p>
+                    """
+
             else:
-                config_html["tag"] = "info"
-                config_html["html"] = f"""
-                <p>Não há Pedidos em Aberto!</p>
-                """
+                status_pedido = config.person_function.retornar_values(tabela="pedidos", person_command=f"""
+                SELECT * FROM pedidos
+                WHERE telefone = '{telefone}' AND status != 'Finalizado'
+                """)
 
-        else:
-            status_pedido = config.person_function.retornar_values(tabela="pedidos", person_command=f"""
-            SELECT * FROM pedidos
-            WHERE telefone = '{telefone}' AND status != 'Finalizado'
-            """)
+                if status_pedido:
+                    config_html["tag"] = "info"
+                    config_html["html"] = f"""
+                    <p>Nome: {status_pedido[0][2]}</p>
+                    <p>Telefone: {status_pedido[0][1]}</p>
+                    <p>Status: {status_pedido[0][-1]}</p>
+                    """
+                else:
+                    config_html["tag"] = "info"
+                    config_html["html"] = f"""
+                    <p>Não há Pedidos em Aberto para o número informado!</p>
+                    """
 
-            if status_pedido:
-                config_html["tag"] = "info"
-                config_html["html"] = f"""
-                <p>Nome: {status_pedido[0][2]}</p>
-                <p>Telefone: {status_pedido[0][1]}</p>
-                <p>Status: {status_pedido[0][-1]}</p>
-                """
-            else:
-                config_html["tag"] = "info"
-                config_html["html"] = f"""
-                <p>Não há Pedidos em Aberto para o número informado!</p>
-                """
-
-        return jsonify(config_html), 200
+            return jsonify(config_html), 200
+        except:
+            config_html["tag"] = "info"
+            config_html["html"] = f"""
+            <p>Falha na Consulta!</p>
+            """
+            return jsonify(config_html), 200
     else:
         return redirect(url_for("index.index"))
