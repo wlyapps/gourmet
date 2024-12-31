@@ -61,131 +61,34 @@
         </div>
 
         <div class="container mt-5">
+            <div class="btn-group-horizontal">
+                <a href="/pedidos" class="btn btn-secondary">Pedidos</a>
+                <a href="/pedidos?pedido=0000" class="btn btn-secondary">Status do Pedido</a>
+            </div>
+            <hr>
             <h1 class="text-center mb-4">Faça seu Pedido</h1>
 
             <!-- Lista de produtos -->
             <ul class="list-group mb-4">
-              <li class="list-group-item d-flex align-items-center">
-                <img src="https://drive.google.com/thumbnail?id=1mbvpWY06NBr-f586CUyMeHhGU1ynmCSm" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
-                <div class="flex-grow-1">
-                  <h5 class="mb-0">Laka Laka</h5>
-                  <span>R$10,00</span>
-                </div>
-                <label style="display: grid; grid-template-columns: repeat(3, auto); gap: 20px;">Disponível</label>
-                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto1', -1)">-</button>
-                <input type="text" id="produto1-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
-                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto1', 1)">+</button>
-              </li>
+                {% if html['itens'] %}
+                    {% for produto in html['itens'] %}
+                        <li class="list-group-item d-flex align-items-center">
+                        <img src="{{ produto[4] }}" alt="imagem{{ loop.index }}" class="rounded me-3" style="width: 50px; height: 50px;">
+                        <div class="flex-grow-1">
+                          <h5 class="mb-0" style="{% if produto[5] == 0 %}color: #706f6f;{% endif %}">{{ produto[1] }}</h5>
+                          <span style="color: blue;">R${{ produto[3] }},00</span>
+                        </div>
+                        {% if produto[5] == 0 %}
+                        <label style="display: grid; grid-template-columns: repeat(3, auto); gap: 20px;color: red;">Esgotado</label>
+                        {% endif %}
+                        <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto{{ loop.index }}', -1)">-</button>
+                        <input type="text" id="produto{{ loop.index }}-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
+                        <input type="number" id="produto{{ loop.index }}-total" value="{{ produto[5] }}" hidden="true">
+                        <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto{{ loop.index }}', 1)">+</button>
+                        </li>
+                    {% endfor %}
+                {% endif %}
 
-              <li class="list-group-item d-flex align-items-center">
-                <img src="https://drive.google.com/thumbnail?id=1mphvN46i847bfoWiL_6-D0U9HHq2My6d" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
-                <div class="flex-grow-1">
-                  <h5 class="mb-0">Prestígio</h5>
-                  <span>R$8,00</span>
-                </div>
-                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto2', -1)">-</button>
-                <input type="text" id="produto2-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
-                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto2', 1)">+</button>
-              </li>
-
-              <li class="list-group-item d-flex align-items-center">
-                <img src="https://drive.google.com/thumbnail?id=1muANgxS85Zh8kB5_BLA8dOnLBuovYJLh" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
-                <div class="flex-grow-1">
-                  <h5 class="mb-0">Ovomaltine</h5>
-                  <span>R$8,00</span>
-                </div>
-                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto3', -1)">-</button>
-                <input type="text" id="produto3-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
-                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto3', 1)">+</button>
-              </li>
-
-              <li class="list-group-item d-flex align-items-center">
-                <img src="https://drive.google.com/thumbnail?id=1mxIKpz6eXLHWs02HM2ZpO4huHxPK4Ycj" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
-                <div class="flex-grow-1">
-                  <h5 class="mb-0">Paçoca</h5>
-                  <span>R$8,00</span>
-                </div>
-                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto4', -1)">-</button>
-                <input type="text" id="produto4-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
-                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto4', 1)">+</button>
-              </li>
-
-              <li class="list-group-item d-flex align-items-center">
-                <img src="https://drive.google.com/thumbnail?id=1myHnSiHtY-uezjr79zq6INYPeTvsjxt8" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
-                <div class="flex-grow-1">
-                  <h5 class="mb-0">Ninho</h5>
-                  <span>R$8,00</span>
-                </div>
-                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto5', -1)">-</button>
-                <input type="text" id="produto5-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
-                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto5', 1)">+</button>
-              </li>
-
-              <li class="list-group-item d-flex align-items-center">
-                <img src="https://drive.google.com/thumbnail?id=1mzLm_LgBN1xMYI9UVo5A95BE3-E8Vuno" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
-                <div class="flex-grow-1">
-                  <h5 class="mb-0">Ninho com Chocolate</h5>
-                  <span>R$8,00</span>
-                </div>
-                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto6', -1)">-</button>
-                <input type="text" id="produto6-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
-                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto6', 1)">+</button>
-              </li>
-
-              <li class="list-group-item d-flex align-items-center">
-                <img src="https://drive.google.com/thumbnail?id=1nozXpc7zsMEVIJ5vRbyzReyDNdusokU7" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
-                <div class="flex-grow-1">
-                  <h5 class="mb-0">Ninho com Nutela</h5>
-                  <span>R$8,00</span>
-                </div>
-                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto7', -1)">-</button>
-                <input type="text" id="produto7-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
-                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto7', 1)">+</button>
-              </li>
-
-              <li class="list-group-item d-flex align-items-center">
-                <img src="https://drive.google.com/thumbnail?id=1nxG8jgaei4aErWGeGJIbNKkJ_xpCwVIk" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
-                <div class="flex-grow-1">
-                  <h5 class="mb-0">Chocolate</h5>
-                  <span>R$8,00</span>
-                </div>
-                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto8', -1)">-</button>
-                <input type="text" id="produto8-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
-                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto8', 1)">+</button>
-              </li>
-
-              <li class="list-group-item d-flex align-items-center">
-                <img src="https://drive.google.com/thumbnail?id=1o-AhIuDaa1p9FFZvKTfn59fXbnSZFBXV" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
-                <div class="flex-grow-1">
-                  <h5 class="mb-0">Brigadeiro</h5>
-                  <span>R$8,00</span>
-                </div>
-                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto9', -1)">-</button>
-                <input type="text" id="produto9-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
-                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto9', 1)">+</button>
-              </li>
-
-              <li class="list-group-item d-flex align-items-center">
-                <img src="https://drive.google.com/thumbnail?id=1o-L6hV_DsgHMSeJ93AJemsSatbmqMvyE" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
-                <div class="flex-grow-1">
-                  <h5 class="mb-0">Tortinha</h5>
-                  <span>R$8,00</span>
-                </div>
-                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto10', -1)">-</button>
-                <input type="text" id="produto10-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
-                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto10', 1)">+</button>
-              </li>
-
-              <li class="list-group-item d-flex align-items-center">
-                <img src="https://drive.google.com/thumbnail?id=1o3YGbtOWe4kUzUQiK7pJtl9QfJF_G7se" alt="Produto" class="rounded me-3" style="width: 50px; height: 50px;">
-                <div class="flex-grow-1">
-                  <h5 class="mb-0">Sensação</h5>
-                  <span>R$8,00</span>
-                </div>
-                <button class="btn btn-outline-danger btn-sm me-2" onclick="alterarQuantidade('produto11', -1)">-</button>
-                <input type="text" id="produto11-quantidade" value="0" readonly class="form-control form-control-sm text-center" style="width: 50px;">
-                <button class="btn btn-outline-success btn-sm ms-2" onclick="alterarQuantidade('produto11', 1)">+</button>
-              </li>
               <!-- Adicione mais produtos aqui -->
             </ul>
 
@@ -297,10 +200,14 @@
         // Controle de quantidade
         const alterarQuantidade = (produtoId, delta) => {
           const quantidadeInput = document.getElementById(`${produtoId}-quantidade`);
+          const quantidadeTotal = document.getElementById(`${produtoId}-total`).value;
+
           let quantidade = parseInt(quantidadeInput.value) + delta;
-          if (quantidade < 0) quantidade = 0;
-          quantidadeInput.value = quantidade;
-          atualizarResumoPedido();
+          if (quantidade < parseInt(quantidadeTotal) + 1) {
+            if (quantidade < 0) quantidade = 0;
+              quantidadeInput.value = quantidade;
+              atualizarResumoPedido();
+          }
         };
 
         const atualizarResumoPedido = () => {

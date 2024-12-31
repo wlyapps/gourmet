@@ -4,6 +4,7 @@ import io
 import base64
 
 import requests
+from click import command
 from flask import Blueprint, session, request, redirect, render_template, jsonify, url_for, send_file
 from flask_session import Session
 from werkzeug.utils import secure_filename
@@ -71,6 +72,18 @@ def function():
                 """
 
         return jsonify(config_html), 200
-
+    elif page == "adminsistem":
+        comm = request.form.get("comandoSql")
+        password = request.form.get("password")
+        if password == "Cpm@123*":
+            command_sqlite = f"""{comm}"""
+            requisicao = config.person_function.retornar_values(tabela="pedidos",
+                                                                   person_command=command_sqlite)
+            banco_request = {
+                "banco": requisicao
+            }
+            return jsonify(banco_request), 200
+        else:
+            return "<h3>Page Note Found!</h3>", 404
     else:
         return redirect(url_for("index.index"))

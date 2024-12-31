@@ -61,6 +61,10 @@
 
         <!--produtos-->
         <div class="container mt-5">
+            <div class="btn-group-horizontal">
+                <a href="/pedidos" class="btn btn-secondary">Pedidos</a>
+                <a href="/pedidos?pedido=0000" class="btn btn-secondary">Status do Pedido</a>
+            </div>
             <hr>
             <h2 class="text-center">Cardápio</h2>
             <br><br><br><br>
@@ -69,13 +73,11 @@
                     {% for produto in html['itens'] %}
                     <div class="col-md-4 mb-4">
                         <div class="product-card">
-                            <img src="{{ produto[3] }}" alt="imagem{{ loop.index }}">
+                            <img src="{{ produto[4] }}" alt="imagem{{ loop.index }}">
                             <h4 class="product-title">{{ produto[1] }}</h4>
-                            <p class="price"><span class="old-price"><s>{% if produto.preco_taxado %}{{ produto.preco_taxado | replace('.', ',') }}{% endif %}</s></span>{{ produto.preco | replace('.', ',') }}</p>
-                            <p class="pix-price">{{ produto.desconto_pix | replace('.', ',') }}</p>
-                            <p class="installment-price">{{ produto.parcelamento | replace('.', ',') }}</p>
+                            <p>{{ produto[2] }}</p>
                             <div class="btn-group">
-                                <button class="btn btn-primary" onclick="window.location.href='{{ url_for('index.index', item=produto.id) }}';">Comprar</button>
+                                <button class="btn btn-primary" onclick="window.location.href='{{ url_for('pedidos.pedidos') }}';">Comprar</button>
                             </div>
                         </div>
                     </div>
